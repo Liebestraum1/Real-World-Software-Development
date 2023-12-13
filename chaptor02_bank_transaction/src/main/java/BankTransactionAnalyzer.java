@@ -1,26 +1,28 @@
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Month;
 import java.util.List;
 
 public class BankTransactionAnalyzer{
+    private static final String FILEPATH = "src/main/resources/bank-data-simple.csv";
+    private static final BankStatementCSVParser bankStatementParser = new BankStatementCSVParser();
+
     public static void main(String[] args) throws IOException {
-        // 파일에 접근할 경로 생성하기
-        Path path = Path.of("src/main/resources/bank-data-simple.csv");
-
-        // 파일에서 줄 읽어오기
-        List<String> file = Files.readAllLines(path);
-
-        double total = 0;
+        final Path path = Path.of(FILEPATH);
+        final List<String> lines = Files.readAllLines(path);
 
 
-        for(String line : file){
-            String[] parsedLine = line.split(",");
-            total += Double.parseDouble(parsedLine[1]);
+        final List<BankTransaction> bankTransactions = bankStatementParser.parseLinesFromCSV(lines);
+        final BankStatementProcessor bankStatementProcessor = new BankStatementProcessor(bankTransactions);
 
-            System.out.println("거래 날짜: " + parsedLine[0] + ", 거래 금액: " + parsedLine[1] + ", 거래 내용: " + parsedLine[2]);
-        }
+        collectSummary(bankStatementProcessor);
+    }
 
-        System.out.println("총 거래 금액: " + total);
+    private static void collectSummary(BankStatementProcessor bankStatementProcessor){
+        System.out.println("총 거래금액 : " + bankStatementProcessor.calculateTotalAmount());
+        System.out.println("1월 거래금액 : " + bankStatementProcessor.calculateTotalInMonth(Month.JANUARY));
+        System.out.println("2월 거래금액 : " + bankStatementProcessor.calculateTotalInMonth(Month.FEBRUARY));
+        System.out.println("월급 총액 : " + bankStatementProcessor.calculateTotalForCategory("Salary"));
     }
 }
