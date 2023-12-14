@@ -3,17 +3,17 @@ import java.util.ArrayList;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class BankStatementCSVParser {
+public class BankStatementCSVParser implements BankStatementParser{
     private static final DateTimeFormatter DATE_PATTERN = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
-    List<BankTransaction> parseLinesFromCSV(List<String> lines) {
+    public List<BankTransaction> parseLinesFrom(List<String> lines) {
         List<BankTransaction> bankTransactions = new ArrayList<>();
 
-        lines.forEach(l -> bankTransactions.add(parseLine(l)));
+        lines.forEach(l -> bankTransactions.add(parseFrom(l)));
         return bankTransactions;
     }
 
-    BankTransaction parseLine(String line){
+    public BankTransaction parseFrom(String line){
         String[] parsedLine = line.split(",");
 
         LocalDate date = LocalDate.parse(parsedLine[0], DATE_PATTERN);
