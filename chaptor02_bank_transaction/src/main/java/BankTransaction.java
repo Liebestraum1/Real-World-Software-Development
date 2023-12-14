@@ -3,7 +3,7 @@ import java.util.Objects;
 
 public class BankTransaction {
     private LocalDate date;
-    private Double amount;
+    private double amount;
     private String description;
 
     public LocalDate getDate() {
@@ -30,7 +30,7 @@ public class BankTransaction {
         this.description = description;
     }
 
-    public BankTransaction(LocalDate date, Double amount, String description) {
+    public BankTransaction(LocalDate date, double amount, String description) {
         this.date = date;
         this.amount = amount;
         this.description = description;
