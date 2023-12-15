@@ -2,9 +2,6 @@ package analyzer;
 
 import exporter.Exporter;
 import exporter.SummaryStatistics;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import parser.BankStatementParser;
 import java.io.IOException;
 import java.nio.file.Files;
