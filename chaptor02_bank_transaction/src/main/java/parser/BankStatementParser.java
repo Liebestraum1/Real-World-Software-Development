@@ -1,4 +1,7 @@
+package parser;
+
 import java.util.List;
+import transaction.BankTransaction;
 
 public interface BankStatementParser {
     BankTransaction parseFrom(String line);

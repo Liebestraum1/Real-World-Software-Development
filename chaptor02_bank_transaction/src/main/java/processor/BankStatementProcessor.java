@@ -1,12 +1,27 @@
-import java.time.LocalDate;
+package processor;
+
+import exporter.SummaryStatistics;
 import java.time.Month;
 import java.util.ArrayList;
+import java.util.DoubleSummaryStatistics;
 import java.util.List;
+import transaction.BankTransaction;
 
 public class BankStatementProcessor {
     private final List<BankTransaction> bankTransactions;
     public BankStatementProcessor(List<BankTransaction> bankTransactions){
         this.bankTransactions = bankTransactions;
+    }
+
+    public SummaryStatistics summarizeTransactions(){
+        final DoubleSummaryStatistics doubleSummaryStatistics = bankTransactions.stream()
+                .mapToDouble(BankTransaction::getAmount)
+                .summaryStatistics();
+
+        return new SummaryStatistics(doubleSummaryStatistics.getSum(),
+                                     doubleSummaryStatistics.getMax(),
+                                     doubleSummaryStatistics.getMin(),
+                                     doubleSummaryStatistics.getAverage());
     }
 
     public double summarizeTransactions(BankTransactionSummarizer bankTransactionSummarizer){

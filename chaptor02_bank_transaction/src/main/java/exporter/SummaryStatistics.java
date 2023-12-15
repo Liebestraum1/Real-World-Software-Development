@@ -1,3 +1,5 @@
+package exporter;
+
 public class SummaryStatistics {
     private final double sum;
     private final double max;
